@@ -33,10 +33,6 @@ public class EchoServer {
         this.port = port;
     }
     public static void main(String[] args) throws Exception {
-        String s="1_2";
-        String s1="_2";
-        System.out.println(s1.startsWith("_"));
-        System.out.println(s1.split("_").length);
         //new EchoServer(8888).start();
     }
 
