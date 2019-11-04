@@ -19,6 +19,8 @@ public class ThreadService {
             damon.start();
             try {
                 damon.join();
+               // Thread.sleep(5000);
+                System.out.println("main  end");
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }finally {

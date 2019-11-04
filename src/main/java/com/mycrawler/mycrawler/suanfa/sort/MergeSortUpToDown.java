@@ -11,10 +11,12 @@ import com.mycrawler.mycrawler.util.SortUtil;
 
 public class MergeSortUpToDown {
     public static void main(String[] args) {
-        Comparable[] arr = SortUtil.createRamdom(10);
+        Comparable[] arr = SortUtil.createRamdom(20000);
         SortUtil.printf(arr);
+        long currentTimeMillis = System.currentTimeMillis();
         sort(arr,0,arr.length-1);
         SortUtil.printf(arr);
+        System.out.println(System.currentTimeMillis()-currentTimeMillis);
     }
 
     public static void sort(Comparable[] arr,int start,int end){

@@ -19,11 +19,17 @@ public class interruptTest {
                 e.printStackTrace();
             }*/
           while (true){
-
+              System.out.println("living");
+              try {
+                  Thread.sleep(1000);
+              } catch (InterruptedException e) {
+                  e.printStackTrace();
+              }
           }
         });
-
+        //Thread.sleep(10000);
         threadService.shutdown(4000);
+        Thread.sleep(100000);
 
     }
 }

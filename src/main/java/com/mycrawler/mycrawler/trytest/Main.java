@@ -8,8 +8,13 @@ import java.util.*;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        int j = query();
-        System.out.println(j);
+      //  int j = query();//
+      //  System.out.println(j);//
+
+       // System.out.println();
+        //1111111110011100
+        //1111111110011011
+        //0000000001100100
     }
     public static int query() {
         int i = 0;

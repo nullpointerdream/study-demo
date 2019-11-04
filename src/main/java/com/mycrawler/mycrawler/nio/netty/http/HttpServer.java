@@ -3,7 +3,6 @@ package com.mycrawler.mycrawler.nio.netty.http;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
-import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
@@ -21,6 +20,8 @@ import io.netty.handler.codec.http.HttpResponseEncoder;
 public class HttpServer {
     private final int port;
 
+
+
     public HttpServer(int port){
         this.port = port;
     }
@@ -36,7 +37,6 @@ public class HttpServer {
 
             @Override
             protected void initChannel(SocketChannel ch) throws Exception {
-                System.out.println("initChannel ch:" + ch);
                 ch.pipeline().addLast("decoder", new HttpRequestDecoder())
                              .addLast("encoder", new HttpResponseEncoder())
                               /* aggregator，消息聚合器（重要）。
