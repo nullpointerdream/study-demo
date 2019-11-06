@@ -2,10 +2,7 @@ package com.mycrawler.mycrawler.juc.forkJoin;
 
 import com.mycrawler.mycrawler.util.SortUtil;
 
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ForkJoinPool;
-import java.util.concurrent.ForkJoinTask;
-import java.util.concurrent.RecursiveTask;
+import java.util.concurrent.*;
 
 public class MergeSortUpToDown {
     public static void main(String[] args) throws ExecutionException, InterruptedException {

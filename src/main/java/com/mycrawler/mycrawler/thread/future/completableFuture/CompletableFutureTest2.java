@@ -1,5 +1,6 @@
 package com.mycrawler.mycrawler.thread.future.completableFuture;
 
+import java.util.Random;
 import java.util.concurrent.*;
 
 import static java.lang.Thread.sleep;
@@ -13,7 +14,7 @@ import static java.lang.Thread.sleep;
 
 public class CompletableFutureTest2 {
     public static void main(String[] args) throws ExecutionException, InterruptedException {
-            testerror();
+        testService();
     }
 
     public static void serial() throws ExecutionException, InterruptedException {
@@ -65,23 +66,31 @@ public class CompletableFutureTest2 {
     }
 
 
-    public void testService(){
+    public static int testService(){
         // 创建线程池
-        ExecutorService executor =
-                Executors.newFixedThreadPool(3);
-// 创建 CompletionService
-        CompletionService<Integer> cs = new
-                ExecutorCompletionService<>(executor);
-// 异步向电商 S1 询价
-        cs.submit(()-> 1);
-// 异步向电商 S2 询价
-        cs.submit(()->3);
-// 异步向电商 S3 询价
-        cs.submit(()->3);
-// 将询价结果异步保存到数据库
-        for (int i=0; i<3; i++) {
-          //  Integer r = cs.take().get();
-          //  executor.execute(()->save(r));
+        Random random = new Random();
+        ExecutorService executor = Executors.newFixedThreadPool(3);
+        // 创建 CompletionService
+        CompletionService<Integer> cs = new ExecutorCompletionService<>(executor);
+        // 异步向电商 S1 2 3 询价
+        for(int i=0;i<3;i++) {
+            int a=i;
+            cs.submit(() -> {
+                Thread.sleep(1000 * random.nextInt(10));
+                return a;
+            });
         }
+        executor.shutdown();
+        // 将询价结果异步保存到数据库
+        for (int i=0; i<3; i++) {
+            try {
+                Future<Integer> take = cs.take();
+                System.out.println(take.get());
+            } catch (Exception e) {
+            }
+
+        }
+        return 0;
+
     }
 }
