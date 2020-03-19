@@ -49,7 +49,7 @@ public class NettyProtobufTimeClient {
                     protected void initChannel(SocketChannel ch) throws Exception {
 
                         ch.pipeline().addLast(new ProtobufVarint32FrameDecoder());
-                        ch.pipeline().addLast(new ProtobufDecoder(UserInfo.UserMsg.getDefaultInstance()));
+                       // ch.pipeline().addLast(new ProtobufDecoder(UserInfo.UserMsg.getDefaultInstance()));
                         ch.pipeline().addLast(new ProtobufVarint32LengthFieldPrepender());
                         ch.pipeline().addLast(new ProtobufEncoder());
                         ch.pipeline().addLast(new TimeProtobufClientHandler());

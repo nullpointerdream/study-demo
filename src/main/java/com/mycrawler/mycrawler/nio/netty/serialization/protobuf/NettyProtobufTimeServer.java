@@ -51,7 +51,7 @@ public class NettyProtobufTimeServer {
                     protected void initChannel(SocketChannel ch) throws Exception {
                         //传输的协议 Protobuf
                         ch.pipeline().addLast(new ProtobufVarint32FrameDecoder());
-                        ch.pipeline().addLast(new ProtobufDecoder(UserInfo.UserMsg.getDefaultInstance()));
+                        //ch.pipeline().addLast(new ProtobufDecoder(UserInfo.UserMsg.getDefaultInstance()));
                         ch.pipeline().addLast(new ProtobufVarint32LengthFieldPrepender());
                         ch.pipeline().addLast(new ProtobufEncoder());
                         ch.pipeline().addLast(new TimeProtobufServerHandler());

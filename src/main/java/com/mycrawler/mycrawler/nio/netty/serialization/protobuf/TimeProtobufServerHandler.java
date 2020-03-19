@@ -15,17 +15,17 @@ public class TimeProtobufServerHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg)
             throws Exception {
-       UserInfo.UserMsg userMsg= (UserInfo.UserMsg) msg;
+      /* UserInfo.UserMsg userMsg= (UserInfo.UserMsg) msg;
         System.out.println(userMsg.getName()+"--"+userMsg.getAge());
-        ctx.writeAndFlush(resp(userMsg.getId()));
+        ctx.writeAndFlush(resp(userMsg.getId()));*/
     }
 
-    private UserInfo.UserMsg resp(int id) {
+    /*private UserInfo.UserMsg resp(int id) {
         UserInfo.UserMsg.Builder builder = UserInfo.UserMsg
                 .newBuilder();
         builder.setAge(id);
         builder.setId(id);
         builder.setName("Netty"+id);
         return builder.build();
-    }
+    }*/
 }
