@@ -37,7 +37,7 @@ public class CustomServer {
                              ch.pipeline().addLast(new CustomServerHandler());
                         };
                         
-                    }).option(ChannelOption.SO_BACKLOG, 128)   
+                    }).option(ChannelOption.SO_BACKLOG, 128)
                     .childOption(ChannelOption.SO_KEEPALIVE, true);
              // 绑定端口，开始接收进来的连接
              ChannelFuture future = sbs.bind(port).sync();  

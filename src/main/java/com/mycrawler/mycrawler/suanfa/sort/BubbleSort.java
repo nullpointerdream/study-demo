@@ -11,7 +11,7 @@ import com.mycrawler.mycrawler.util.SortUtil;
 
 public class BubbleSort {
     public static void main(String[] args) {
-        Comparable[] arr = SortUtil.createRamdom(20);
+        Comparable[] arr = new Comparable[]{1,2,5,3};
         SortUtil.printf(arr);
         for(int i=0;i<arr.length;i++){
             Boolean flag=true;

@@ -12,10 +12,10 @@ import java.util.concurrent.TimeUnit;
 public class VolatileTest {
 
     public static void main(String[] args) throws InterruptedException {
-        ThreadDemo threadDemo =new ThreadDemo();
-        new Thread(threadDemo).start();
+        Threaddemo threaddemo =new Threaddemo();
+        new Thread(threaddemo).start();
         while(true){
-            if(threadDemo.isFlag()){
+            if(threaddemo.isFlag()){
                 System.out.println("------------------");
                 break;
             }
@@ -30,7 +30,7 @@ public class VolatileTest {
 
 }
 
-class ThreadDemo implements Runnable {
+class Threaddemo implements Runnable {
 
     private boolean flag = false;
 

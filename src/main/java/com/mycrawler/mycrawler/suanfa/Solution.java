@@ -1575,20 +1575,20 @@ public class Solution {
     private int count = 0;
     public int pathSum(TreeNode root, int sum) {
         if(root != null){
-            pathAdd(root, sum);
+            pathadd(root, sum);
             pathSum(root.left, sum);
             pathSum(root.right, sum);
         }
         return count;
     }
 
-    public void pathAdd(TreeNode node, int last){
+    public void pathadd(TreeNode node, int last){
         if(node != null){
             if(last == node.val){
                 count++;
             }
-            pathAdd(node.left, last-node.val);
-            pathAdd(node.right, last-node.val);
+            pathadd(node.left, last-node.val);
+            pathadd(node.right, last-node.val);
         }
     }
 

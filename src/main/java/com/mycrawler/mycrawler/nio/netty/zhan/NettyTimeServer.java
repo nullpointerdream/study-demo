@@ -42,7 +42,7 @@ public class NettyTimeServer {
                 .channel(NioServerSocketChannel.class)
                 // 第2次握手服务端向客户端发送请求确认，同时把此连接放入队列A中，
                 // 然后客户端接受到服务端返回的请求后，再次向服务端发送请求，表示准备完毕，此时服务端收到请求，把这个连接从队列A移动到队列B中，
-                // 此时A+B的总数，不能超过SO_BACKLOG的数值，满了之后无法建立新的TCP连接,2次握手后和3次握手后的总数
+                // 此时A+B的总数，不能超过SOBackLOG的数值，满了之后无法建立新的TCP连接,2次握手后和3次握手后的总数
                 // 当服务端从队列B中按照FIFO的原则获取到连接并且建立连接[ServerSocket.accept()]后，B中对应的连接会被移除，这样A+B的数值就会变小
                 //此参数对于程序的连接数没影响，会影响正在准备建立连接的握手。
                .childOption(ChannelOption.SO_BACKLOG,1024)

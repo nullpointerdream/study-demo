@@ -63,7 +63,7 @@ public class EchoServer {
                     SocketChannel sc = ssc.accept();
                     sc.configureBlocking( false );
 
-                    // Add the new connection to the selector
+                    // add the new connection to the selector
                     SelectionKey newKey = sc.register( selector, SelectionKey.OP_READ );
                     it.remove();
 

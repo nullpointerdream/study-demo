@@ -6,6 +6,7 @@ import com.mongodb.MongoClientOptions;
 import com.mongodb.ServerAddress;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.TransportAddress;
+import org.elasticsearch.common.transport.TransportAddress;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
 
 
