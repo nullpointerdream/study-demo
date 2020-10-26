@@ -2,9 +2,8 @@ package com.mycrawler.mycrawler.suanfa;
 
 import com.alibaba.fastjson.JSONObject;
 
-import java.io.*;
+import java.io.IOException;
 import java.util.*;
-import java.util.concurrent.locks.ReentrantLock;
 
 class ListNode {
       int val;
@@ -18,6 +17,53 @@ class ListNode {
      TreeNode(int x) { val = x; }
  }
 public class Solution {
+
+    public int[] getLeastNumbers(int[] arr, int k) {
+        PriorityQueue<Integer> q =  new PriorityQueue<>(k);
+        for(int i = 0 ;i< arr.length;i++){
+            if(q.size()<=k){
+                q.offer(arr[i]);
+            }else {
+                if(q.peek()>arr[i]){
+                    q.poll();
+                    q.offer(arr[i]);
+                }
+            }
+        }
+        int[] min = new int[k];
+        for(int i = 0 ;i< k;i++){
+            min[i]=q.poll();
+        }
+        return min;
+    }
+
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        if(nums.length == 0 || k == 0) return new int[0];
+        Deque<Integer> deque = new LinkedList<>();
+        int[] arr= new int[2];
+        for(int i=0;i<k;i++){
+            if(!deque.isEmpty()&&deque.peekLast()<=nums[i]){
+                deque.removeLast();
+            }
+            deque.addLast(nums[i]);
+        }
+        arr[0]=deque.peekFirst();
+
+        for(int i=k;i<nums.length;i++){
+            if(deque.peekFirst()==nums[k-i]){
+                deque.removeFirst();
+            }
+            while (!deque.isEmpty()&&deque.peekLast()<=nums[i]){
+                deque.removeLast();
+            }
+            deque.addLast(nums[i]);
+            arr[i-k+1]=deque.peekFirst();
+        }
+        return arr;
+
+
+
+    }
 
     /**
     * @Description: 两数之和
@@ -217,39 +263,7 @@ public class Solution {
         return stack.isEmpty();
     }
 
-    /**
-    * @Description: 合并链表
-    * @Param: [l1, l2]
-    * @return: com.mycrawler.mycrawler.suanfa.Solution.ListNode
-    * @Author: 陈家乐
-    * @Date: 2019/3/25
-    */
-    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
-           ListNode listNode=new ListNode(0);
-           ListNode listNode2=listNode;
-           while (true){
-               if(l1!=null&&l2!=null){
-                   if(l1.val>l2.val){
-                       listNode.next=new ListNode(l2.val);
-                       l2=l2.next;
-                   }else {
-                       listNode.next=new ListNode(l1.val);
-                       l1=l1.next;
-                   }
-               }else if(l1==null &&l2!=null){
-                   listNode.next=new ListNode(l2.val);
-                   l2=l2.next;
-               }else if(l1!=null&&l2==null){
-                   listNode.next=new ListNode(l1.val);
-                   l1=l1.next;
-               }else {
-                   break;
-               }
-               listNode=listNode.next;
-           }
-           return listNode2.next;
-    }
-    
+
     /** 
     * @Description: 删除排序数组中的重复项
     * @Param: [nums] 
@@ -2107,30 +2121,7 @@ public class Solution {
     }
 
 
-    public ListNode mergeTwoLists2(ListNode l1, ListNode l2) {
-        ListNode listNode =new ListNode(0);
-        ListNode head =listNode;
-        while (l1!=null || l2!=null){
-            if(l1!=null && l2!=null){
-                if(l1.val<l2.val){
-                    listNode.next=new ListNode(l1.val);
-                    l1=l1.next;
-                }else {
-                    listNode.next=new ListNode(l2.val);
-                    l2=l2.next;
-                }
-            } else if (l1 != null) {
-                listNode.next=new ListNode(l1.val);
-                l1=l1.next;
-            }else {
-                listNode.next=new ListNode(l2.val);
-                l2=l2.next;
-            }
-            listNode=listNode.next;
-        }
 
-        return head.next;
-    }
 
     /**
     * @Description: 合并二叉树
@@ -2184,19 +2175,19 @@ public class Solution {
     public static void main(String[] args) throws IOException {
         Solution solution = new Solution();
         ListNode listNode=new ListNode(1);
-        new ArrayList<>().add(0);
         //Integer.reverse(n)
         listNode.next=new ListNode(2);
-        listNode.next.next=new ListNode(3);
+       listNode.next.next=new ListNode(3);
         listNode.next.next.next=new ListNode(4);
         listNode.next.next.next.next=new ListNode(5);
+       // listNode.next.next.next.next.next=new ListNode(2);
         TreeNode treeNode=new TreeNode(1);
         treeNode.left=new TreeNode(2);
         treeNode.right=new TreeNode(3);
         treeNode.left.left=new TreeNode(4);
         treeNode.right.left=new TreeNode(5);
         //solution.moveZeroes(new int[]{0,0,0,3,12}
-       System.out.println(JSONObject.toJSONString(solution.findUnsortedSubarray(new  int[]{16, 6, 4, 8, 10, 9, 15})));
+       System.out.println(JSONObject.toJSONString(solution.removeNthFromEnd(listNode,1)));
 
      /*   File file = new File("/Users/chenjiale/Desktop/aaa");
         File file2 = new File("/Users/chenjiale/Desktop/customer_Name.txt");
@@ -2216,6 +2207,109 @@ public class Solution {
 
     }
 
+    public ListNode mergeKLists(ListNode[] lists) {
+        if(lists.length==1){
+            return lists[0];
+        }
+        if(lists.length==2){
+            return mergeTwoLists(lists[0],lists[1]);
+        }
+        int mid = lists.length/2;
+        ListNode[] leftlists= new ListNode[mid];
+        ListNode[] rightlists= new ListNode[lists.length-mid];
+        for(int i=0;i<mid;i++){
+            leftlists[i]=lists[i];
+        }
+        for(int i=mid;i<lists.length;i++){
+            rightlists[i]=lists[i];
+        }
+
+        ListNode left=mergeKLists(leftlists);
+        ListNode right=mergeKLists(rightlists);
+        return mergeTwoLists(left,right);
+    }
+
+    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        ListNode node= new ListNode(2);
+        ListNode head= node;
+        while (l1!=null&&l2!=null){
+            if(l1.val>l2.val){
+                node.next = l2;
+                l2=l2.next;
+            }else {
+                node.next = l1;
+                l1 = l1.next;
+            }
+            node = node.next;
+        }
+        if(l1!=null){
+            node.next=l1;
+        }
+        if(l2!=null){
+            node.next=l2;
+        }
+        return head.next;
+    }
+
+    public ListNode partition(ListNode head, int x) {
+        ListNode less = new ListNode(0);
+        ListNode lessHead = less;
+        ListNode more = new ListNode(0);;
+        ListNode moreHead = more;
+        while (head!=null){
+            if(head.val<x){
+                less.next=head;
+                less=less.next;
+            }else {
+                more.next=head;
+                more=more.next;
+            }
+            head = head.next;
+        }
+        more.next=null;
+        if(lessHead.next==null){
+            return moreHead.next;
+        }
+
+        less.next=moreHead.next;
+        return lessHead;
+
+    }
+
+    //1->2->3->4->5
+    public ListNode reverseBetween(ListNode head, int m, int n) {
+            ListNode rel = head;
+            ListNode pre = null;
+            int k =n-m+1;
+            while (m>1){
+                pre=head;
+                head=head.next;
+                m--;
+            }
+            ListNode end=head;
+            ListNode reverNodeFirst=null;
+            while (k>0){
+                ListNode tmp = head.next;
+                head.next=reverNodeFirst;
+                reverNodeFirst=head;
+                head=tmp;
+                k--;
+            }
+            if(reverNodeFirst!=null) {
+                ListNode start = head;
+                end.next = start;
+            }
+            if(pre==null){
+                return reverNodeFirst==null?rel:reverNodeFirst;
+            }else {
+                pre.next=reverNodeFirst;
+            }
+            return rel;
+
+
+    }
+
+
 
 
     static class ListNode {
@@ -2223,6 +2317,47 @@ public class Solution {
       ListNode next;
       ListNode(int x) { val = x; }
   }
+
+    public ListNode detectCycle(ListNode head) {
+        ListNode one = head;
+        ListNode two = head;
+        ListNode intersect = null;
+        while (two!=null && two.next!=null){
+            one=one.next;
+            two=one.next.next;
+            if(one==two){
+                intersect=one;
+                break;
+            }
+        }
+        if(intersect==null){
+            return null;
+        }
+        while (head!=intersect){
+            head=head.next;
+            intersect=intersect.next;
+        }
+        return head;
+
+    }
+
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        ListNode lead = head;
+        ListNode first=head;
+        ListNode end=head;
+        while (n>0){
+            end=end.next;
+            n--;
+        }
+
+        while (end!=null){
+            first=first.next;
+            end=end.next;
+        }
+        first.val=first.next.val;
+        first.next=first.next.next;
+        return lead;
+    }
 
     class Node {
         public boolean val;
@@ -2254,6 +2389,9 @@ public class Solution {
             val = _val;
             children = _children;
         }
-    };
+    }
+
+
+
 }
         

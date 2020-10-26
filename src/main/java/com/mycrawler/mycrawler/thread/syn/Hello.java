@@ -1,5 +1,8 @@
 package com.mycrawler.mycrawler.thread.syn;
 
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.ReentrantLock;
+
 /**
  * @program: mycrawler
  * @description:
@@ -9,10 +12,11 @@ package com.mycrawler.mycrawler.thread.syn;
 
 public class Hello {
     public static void main(String[] args) {
-        Hello hello=new Hello();
-        for(int i=0;i<50_000;i++){
-            hello.test();
-        }
+        ReentrantLock lock=new ReentrantLock();
+        Condition condition = lock.newCondition();
+
+
+        lock.lock();
     }
 
 
