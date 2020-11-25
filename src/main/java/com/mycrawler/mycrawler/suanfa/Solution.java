@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.*;
 
 class ListNode {
-      int val;
+     int val;
      ListNode next;
      ListNode(int x) { val = x; }
  }
@@ -1221,12 +1221,7 @@ public class Solution {
     * @Author: 陈家乐 
     * @Date: 2019/4/2
     */ 
-    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-        while ((root.val - p.val) * (root.val - q.val) > 0)
-            root = p.val < root.val ? root.left : root.right;
-        return root;
 
-    }
 
     /**
     * @Description: 二叉树所有路径
@@ -2171,15 +2166,44 @@ public class Solution {
         return end - start + 1;
     }
 
+    public List<List<Integer>> levelOrderBottom2(TreeNode root) {
+        if (root == null) {
+            return new ArrayList<>();
+        }
+        List<List<Integer>> list = new LinkedList<>();
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            List<Integer> subList = new ArrayList<>();
+            int size = queue.size();
+            while (size > 0) {
+                size--;
+                TreeNode node = queue.poll();
+                subList.add(node.val);
+                if (node.right != null) {
+                    queue.offer(node.right);
+                }
+                if (node.left != null) {
+                    queue.offer(node.left);
+                }
+            }
+            list.add(subList);
+        }
+        Collections.reverse(list);
+        return list;
+    }
+
+
+
 
     public static void main(String[] args) throws IOException {
         Solution solution = new Solution();
         ListNode listNode=new ListNode(1);
         //Integer.reverse(n)
-        listNode.next=new ListNode(2);
+       /* listNode.next=new ListNode(2);
        listNode.next.next=new ListNode(3);
         listNode.next.next.next=new ListNode(4);
-        listNode.next.next.next.next=new ListNode(5);
+        listNode.next.next.next.next=new ListNode(5);*/
        // listNode.next.next.next.next.next=new ListNode(2);
         TreeNode treeNode=new TreeNode(1);
         treeNode.left=new TreeNode(2);
@@ -2187,7 +2211,7 @@ public class Solution {
         treeNode.left.left=new TreeNode(4);
         treeNode.right.left=new TreeNode(5);
         //solution.moveZeroes(new int[]{0,0,0,3,12}
-       System.out.println(JSONObject.toJSONString(solution.removeNthFromEnd(listNode,1)));
+       System.out.println(JSONObject.toJSONString(solution.levelOrderBottom2(treeNode)));
 
      /*   File file = new File("/Users/chenjiale/Desktop/aaa");
         File file2 = new File("/Users/chenjiale/Desktop/customer_Name.txt");
@@ -2249,6 +2273,38 @@ public class Solution {
             node.next=l2;
         }
         return head.next;
+    }
+
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        LinkedList<TreeNode> pStack = new LinkedList<>();
+        LinkedList<TreeNode> qStack = new LinkedList<>();
+        TreeNode pRoot = root;
+        TreeNode qRoot = root;
+        getPath(pRoot,p,pStack,false);
+        getPath(qRoot,q,qStack,false);
+        while (!pStack.isEmpty()||!qStack.isEmpty()){
+            if(pStack.peekFirst()==qStack.peekFirst()){
+                qStack.removeFirst();
+                pStack.removeFirst();
+                continue;
+            }else {
+                return qStack.peekFirst();
+            }
+        }
+        return null;
+    }
+
+    private void getPath(TreeNode root, TreeNode node, LinkedList<TreeNode> stack,boolean finsh) {
+        if(root==null||finsh){
+            return;
+        }
+        stack.addLast(root);
+        if(root == node ){
+            finsh=true;
+        }
+        getPath(root.left,node,stack,finsh);
+        getPath(root.right,node,stack,finsh);
+        stack.removeFirst();
     }
 
     public ListNode partition(ListNode head, int x) {
@@ -2390,6 +2446,9 @@ public class Solution {
             children = _children;
         }
     }
+
+
+
 
 
 

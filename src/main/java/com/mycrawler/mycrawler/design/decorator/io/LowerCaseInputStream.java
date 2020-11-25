@@ -1,7 +1,8 @@
 package com.mycrawler.mycrawler.design.decorator.io;
 
-import javax.xml.crypto.dsig.spec.XPathType;
-import java.io.*;
+import java.io.FilterInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * @program: study-demo
@@ -11,7 +12,7 @@ import java.io.*;
  **/
 public class LowerCaseInputStream extends FilterInputStream {
 
-    public LowerCaseInputStream(InputStream file) throws FileNotFoundException {
+    public LowerCaseInputStream(InputStream file){
         super(file);
     }
 
