@@ -449,6 +449,101 @@ class Solution {
     }
 
 
+    public int removeCoveredIntervals(int[][] intervals) {
+        Arrays.sort(intervals,(a,b)->{
+                if(a[0]==b[0]){
+                    return b[1]-a[1];
+                }
+                return a[0]-b[0];
+        });
+
+        int left = intervals[0][0];
+        int right = intervals[0][1];
+        int cover = 0;
+        for(int i=1;i<intervals.length;i++){
+            int[] interval = intervals[i];
+            if(left<=interval[0]&&right>=interval[1]){
+                cover++;
+            }else if(left<=interval[0]&&right<interval[1]){
+                right = interval[1];
+            }else if(right<interval[0]){
+                left = interval[0];
+                right = interval[1];
+            }
+        }
+        return intervals.length-cover;
+    }
+
+    public int[][] merge(int[][] intervals) {
+
+        List<int[]> lists = new ArrayList<>();
+        Arrays.sort(intervals,(a,b)->{
+            if(a[0]==b[0]){
+                return b[1]-a[1];
+            }
+            return a[0]-b[0];
+        });
+
+        int left = intervals[0][0];
+        int right = intervals[0][1];
+        for(int i=1;i<intervals.length;i++){
+            int[] interval = intervals[i];
+            if(right>=interval[0]&&right<interval[1]){
+                right = interval[1];
+            }else if(right<interval[0]){
+                lists.add(new int[]{left,right});
+                left = interval[0];
+                right = interval[1];
+            }
+        }
+        lists.add(new int[]{left,right});
+        int[][] arr= new int[lists.size()][2];
+        for(int i=0;i<arr.length;i++){
+            int[] ints = lists.get(i);
+            for(int j=0;j<2;j++){
+                arr[i]=ints;
+            }
+        }
+        return arr;
+
+    }
+
+    public int[][] intervalIntersection(int[][] A, int[][] B) {
+        int i = 0;
+        int j = 0;
+        List<int[]> list = new ArrayList<>();
+        int[] tmp = A[0];
+        while (j<B.length){
+            int[] intsB = B[j];
+            if(tmp[1]<intsB[0]){
+                i++;
+            }else if(tmp[0]<=intsB[0]&&tmp[1]<=intsB[1]){
+                list.add(new int[]{intsB[0],tmp[1]});
+                i++;
+            }else if(tmp[0]>intsB[0]&&tmp[1]<=intsB[1]){
+                list.add(new int[]{tmp[0],tmp[1]});
+                i++;
+            }else if(tmp[0]<=intsB[1]&&tmp[1]>=intsB[1]){
+                list.add(new int[]{tmp[0],intsB[1]});
+                i++;
+            }else if(tmp[0]>intsB[1]){
+                j++;
+            }
+
+            if(i==A.length){
+                break;
+            }else {
+                tmp=A[i];
+            }
+        }
+        int[][] arr= new int[list.size()][2];
+        return null;
+    }
+
+
+
+
+
 
 
 
@@ -462,6 +557,8 @@ class Solution {
         treeNode.left=new TreeNode(1);
         treeNode.right=new TreeNode(4);
         treeNode.left.right=new TreeNode(2);
+        int[][] arr = new int[][]{{1,4},{3,6},{2,8}};
+        new Solution().removeCoveredIntervals(arr);
        /*treeNode.left.left=new TreeNode(5);
         treeNode.left.right=new TreeNode(1);*/
        /* treeNode.right.left=new TreeNode(0);

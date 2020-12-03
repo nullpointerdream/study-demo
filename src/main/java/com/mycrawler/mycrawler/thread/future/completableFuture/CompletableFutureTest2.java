@@ -14,17 +14,23 @@ import static java.lang.Thread.sleep;
 
 public class CompletableFutureTest2 {
     public static void main(String[] args) throws ExecutionException, InterruptedException {
-        testService();
+       // testService();
+        serial();
     }
 
     public static void serial() throws ExecutionException, InterruptedException {
 
         CompletableFuture<String> f1=CompletableFuture.supplyAsync(()->{
+            try {
+                Thread.sleep(10000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             return "hello";
         }).thenApply((a)->{
             return a+" aaa";
         }).thenApply(String::toUpperCase);
-
+        System.out.println("lal");
         System.out.println(f1.get());
     }
 
