@@ -1,7 +1,5 @@
 package com.mycrawler.mycrawler.thread.interaput;
 
-import java.io.BufferedInputStream;
-
 /**
  * @program: mycrawler
  * @description:
@@ -12,7 +10,9 @@ import java.io.BufferedInputStream;
 public class Test {
     public static void main(String[] args) {
         Thread th = Thread.currentThread();
-        new Thread(()->{
+        th.interrupt();
+        System.out.println(th.isInterrupted());
+      /*  new Thread(()->{
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
@@ -28,6 +28,6 @@ public class Test {
                 break;
             }
 
-        }
+        }*/
     }
 }

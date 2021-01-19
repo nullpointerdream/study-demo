@@ -18,6 +18,16 @@
         <property name="animal" value="Tiger"/>
     </bean>
 
+    <bean id="person" class="com.mycrawler.mycrawler.spring.ioc.bean.Person">
+        <property name="name" value="Tiger"/>
+        <property name="age" value="2"/>
+    </bean>
+
+    <bean id="person2" class="com.mycrawler.mycrawler.spring.ioc.bean.Person">
+        <property name="name" value="lal"/>
+        <property name="age" value="3"/>
+    </bean>
+
     <bean id="postProcessorBean" class="com.mycrawler.mycrawler.spring.ioc.MyBeanPostProcess" />
     <bean id="myInstantiationAwareBeanPostProcessor" class="com.mycrawler.mycrawler.spring.ioc.MyInstantiationAwareBeanPostProcessor" />
     <bean id="myBeanFactoryPostProcessor" class="com.mycrawler.mycrawler.spring.ioc.MyBeanFactoryPostProcessor" />

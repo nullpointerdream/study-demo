@@ -1,17 +1,14 @@
 package com.mycrawler.mycrawler.nio.netty;
 
 import io.netty.bootstrap.Bootstrap;
-import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.handler.codec.DelimiterBasedFrameDecoder;
 
 import java.net.InetSocketAddress;
-import java.util.HashMap;
 
 public class EchoClient {
 
@@ -41,6 +38,7 @@ public class EchoClient {
             ChannelFuture f = b.connect().sync();        //6
             f.channel().closeFuture().sync();            //7
         } finally {
+
             group.shutdownGracefully().sync();            //8
         }
     }

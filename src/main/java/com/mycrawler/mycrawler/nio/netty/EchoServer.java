@@ -9,7 +9,6 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.DelimiterBasedFrameDecoder;
-import io.netty.handler.codec.LineBasedFrameDecoder;
 import io.netty.handler.timeout.IdleStateHandler;
 
 import java.net.InetSocketAddress;
@@ -33,7 +32,7 @@ public class EchoServer {
         this.port = port;
     }
     public static void main(String[] args) throws Exception {
-        //new EchoServer(8888).start();
+        new EchoServer(8888).start();
     }
 
     public void start() throws Exception {
