@@ -14,7 +14,7 @@ import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
 
-public class Proxy {
+public class MyProxy {
 
     public static Object newProxyInstance() throws IOException, ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
         TypeSpec.Builder timeProxy = TypeSpec.classBuilder("TimeProxy").
@@ -55,7 +55,7 @@ public class Proxy {
     }
 
     public static void main(String[] args) throws IOException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-        Flyable o = (Flyable) Proxy.newProxyInstance();
+        Flyable o = (Flyable) MyProxy.newProxyInstance();
         o.fly();
     }
 }

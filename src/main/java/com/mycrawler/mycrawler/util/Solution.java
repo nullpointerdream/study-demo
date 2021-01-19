@@ -1,19 +1,124 @@
 package com.mycrawler.mycrawler.util;
 
 
-import com.alibaba.fastjson.JSONObject;
-import org.apache.log4j.helpers.ThreadLocalMap;
-import org.apache.poi.hssf.record.formula.functions.T;
-
-
 import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.locks.LockSupport;
-import java.util.concurrent.locks.ReentrantLock;
 
 public class Solution {
+
+    private final int START=0;
+    private final int NUM=1;
+    private final int STR=2;
+    private int calculateFlag=0;
+    private int caseEnum=START;
+    private int num=0;
+    private Stack<Integer> numberStack=new Stack();
+    private Stack<Character> strStack=new Stack();
+
+    public void calculate(Stack<Integer> numberStack,Stack<Character> strStack){
+        if(numberStack.size()<2){
+            return;
+        }
+        Integer one = numberStack.pop();
+        Integer two = numberStack.pop();
+        Character pop = strStack.pop();
+        Integer rel=0;
+        if(pop=='-'){
+            rel=two-one;
+        }else {
+            rel=one+two;
+        }
+        numberStack.push(rel);
+
+    }
+    public int calculate(String s) {
+        for(int i=0;i<s.length();i++){
+            char c = s.charAt(i);
+            if(c==' '){
+                continue;
+            }
+            switch (caseEnum){
+                case START:
+                    if (Character.isDigit(c)){
+                        caseEnum=NUM;
+                    }else {
+                        caseEnum=STR;
+                    }
+                    i--;
+                    break;
+                case NUM:
+                    if(Character.isDigit(c)) {
+                        num = num * 10 + c - '0';
+                    }else {
+                        numberStack.push(num);
+                        if(calculateFlag==1){
+                            calculate(numberStack,strStack);
+                        }
+                        num=0;
+                        i--;
+                        caseEnum=STR;
+                    }
+                    break;
+                case STR:
+                    if(Character.isDigit(c)){
+                        caseEnum=NUM;
+                        i--;
+                    }else if('('==c){
+                        calculateFlag=0;
+                        caseEnum=NUM;
+                    }else if(c==')') {
+                        calculate(numberStack,strStack);
+                    }else{
+                        strStack.push(c);
+                        calculateFlag=1;
+                    }
+                    break;
+            }
+
+        }
+        if(num!=0){
+            numberStack.push(num);
+            calculate(numberStack,strStack);
+        }
+        return numberStack.empty()?0:numberStack.pop();
+
+    }
+
+
+    public boolean isPalindrome(ListNode head) {
+        if(head==null){
+            return true;
+        }
+        ListNode first = head;
+        ListNode second = head.next;
+        while (second!=null&&second.next!=null){
+            first=first.next;
+            second=second.next.next;
+        }
+        ListNode reverseLists = reverseList(first.next);
+        while (reverseLists!=null){
+            if(head.val!=reverseLists.val){
+                return false;
+            }
+            head=head.next;
+            reverseLists=reverseLists.next;
+        }
+        return true;
+        //first 中间
+    }
+
+    private ListNode reverseList(ListNode head) {
+        ListNode node=head;
+        ListNode pre=null;
+        while (node!=null){
+            ListNode tmp=node.next;
+            node.next=pre;
+            pre=node;
+            node=tmp;
+        }
+        return pre;
+    }
+
+
 
     /**
     * @Description: 最长不重复字符 
@@ -203,8 +308,18 @@ public class Solution {
     }
 
     public static void main(String[] args) throws InterruptedException {
+        ListNode listNode =new ListNode(1);
+        listNode.next=new ListNode(4);
+        listNode.next.next=new ListNode(-1);
+        listNode.next.next.next=new ListNode(-1);
+        listNode.next.next.next.next=new ListNode(4);
+        listNode.next.next.next.next.next=new ListNode(1);
         Solution solution =new Solution();
-        System.out.println(solution.findMinIdx(new int[]{3,4, 5, 6, 7, 0, 1, 2}));
+        solution.isPalindrome(listNode);
+        int calculate = solution.calculate("0");
+        //int calculate = solution.calculate("(4+5+2)");
+        System.out.println(calculate);
+        //System.out.println(solution.findMinIdx(new int[]{3,4, 5, 6, 7, 0, 1, 2}));
       //  ExecutorService executorService =Executors.newFixedThreadPool(21);
       //  executorService.submit();
       //  System.out.println(JSONObject.toJSONString(solution.searchRange(new int[]{1},1)));
@@ -220,6 +335,8 @@ public class Solution {
         }
         return start;
     }
+
+
 
      static class ListNode {
       int val;
