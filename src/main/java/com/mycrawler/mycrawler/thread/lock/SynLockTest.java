@@ -1,10 +1,5 @@
 package com.mycrawler.mycrawler.thread.lock;
 
-import java.util.Optional;
-import java.util.stream.Stream;
-
-import static sun.misc.PostVMInitHook.run;
-
 /**
  * @program: mycrawler
  * @description:
@@ -13,7 +8,7 @@ import static sun.misc.PostVMInitHook.run;
  **/
 
 public class SynLockTest {
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         SynLock lock =new SynLock();
 
         Stream.of("T1","T2","T3","T4").forEach(t->{
@@ -36,5 +31,5 @@ public class SynLockTest {
     public static void run() throws InterruptedException {
         Optional.of(Thread.currentThread().getName()+" 正在执行").ifPresent(System.out::println);
         Thread.sleep(5000);
-    }
+    }*/
 }

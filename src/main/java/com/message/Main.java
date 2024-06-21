@@ -1,5 +1,10 @@
 package com.message;
 
+import cn.hutool.poi.excel.ExcelUtil;
+import cn.hutool.poi.excel.ExcelWriter;
+import org.apache.poi.ss.usermodel.Workbook;
+
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,34 +13,37 @@ import java.util.List;
  **/
 public class Main {
 
-    public static void main(String[] args) throws Exception {
-        Main menuService=new Main();
-        System.out.println(menuService.combinationSum(new int[]{2,3,6,7},7));
+    public static void main(String[] args) {
+        ValidationPPMResultExcelDTO rows = new ValidationPPMResultExcelDTO();
+        rows.setContractCurrency("aaa");
+        ValidationPPMSummaryExcelDTO rows2 = new ValidationPPMSummaryExcelDTO("2","2","3");
+        List<ValidationPPMSummaryExcelDTO> list = new ArrayList<>();
+        List<ValidationPPMResultExcelDTO> list2 = new ArrayList<>();
+        list2.add(rows);
+        list.add(rows2);
+        ExcelWriter writer = ExcelUtil.getWriter("d:/writeBeanTest5.xlsx");
+        setSheet(writer,ValidationPPMResultExcelDTO.class);
+        setSheet(writer,ValidationPPMSummaryExcelDTO.class);
+        writer.setSheet("aaa");
+        writer.write(list2);
+        writer.setSheet("bbb");
+        writer.write(list);
+        Workbook workbook = writer.getWorkbook();
+        //移除第一个默认的sheet
+        workbook.removeSheetAt(0);
+        writer.close();
     }
 
-    public List<List<Integer>> combinationSum(int[] candidates, int target) {
-        List<List<Integer>> lists =new ArrayList<>();
-        combinationSum(lists,0,candidates,new ArrayList<Integer>(),target);
-        return lists;
-    }
+    private static void setSheet(ExcelWriter writer,  Class classz) {
 
-    private void combinationSum(List<List<Integer>> lists, int i, int[] candidates, ArrayList<Integer> es, int remain) {
-        int candidate = candidates[i];
-        if(remain-candidate < 0) {
-            return;
+        Field[] declaredFields = classz.getDeclaredFields();
+        for (Field fd : declaredFields) {
+            if (fd.isAnnotationPresent(Excel.class)) {
+                Excel annotation = fd.getAnnotation(Excel.class);
+                writer.addHeaderAlias(fd.getName(), annotation.name());
+            }
         }
-        remain-=candidate;
-        es.add(candidates[i]);
-        if(remain == 0) {
-            lists.add(new ArrayList<>(es));
-            return;
-        }
-        combinationSum(lists,i,candidates,es,remain);
-        remain+=candidate;
-        es.remove(es.size()-1);
-        combinationSum(lists,i+1,candidates,es,remain);
     }
-
 
 
 }

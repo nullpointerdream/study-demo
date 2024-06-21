@@ -1,8 +1,6 @@
 package com;
 
 
-import com.alibaba.fastjson.JSONObject;
-
 import java.util.*;
 
 /**
@@ -695,7 +693,9 @@ class Solution {
     public static void main(String[] args) {
 
         // System.out.println(JSONObject.toJSONString(new Solution().maxProfit_k_1(new int[]{2,3,6,5,0,3})));
-        System.out.println(JSONObject.toJSONString(new Solution().maxProfit(2, new int[]{2, 4, 1})));
+        //System.out.println(JSONObject.toJSONString(new Solution().maxProfit(2, new int[]{2, 4, 1})));
+        int[][] ints = {{0,1,2,0}, {3,4,5,2}, {1,3,1,5}};
+        new Solution().setZeroes(ints);
         TreeNode treeNode = new TreeNode(3);
         treeNode.left = new TreeNode(1);
         treeNode.right = new TreeNode(4);
@@ -715,6 +715,87 @@ class Solution {
         //System.out.println(JSONObject.toJSONString(new Solution().kthSmallest(treeNode,1)));
 
 
+    }
+
+
+    public void setZeroes(int[][] matrix) {
+        int m = matrix[0].length;
+        int n = matrix.length;
+        Set<Integer> x = new HashSet<>();
+        Set<Integer> y = new HashSet<>();
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (matrix[i][j] == 0) {
+                    x.add(i);
+                    y.add(j);
+                }
+            }
+        }
+        for (Integer i : x) {
+            for (int j = 0; j < m; j++) {
+                matrix[i][j] = 0;
+            }
+        }
+        for (Integer j : y) {
+            for (int i = 0; i < n; i++) {
+                matrix[i][j] = 0;
+            }
+        }
+
+    }
+
+    public boolean areSentencesSimilar(String sentence1, String sentence2) {
+        if ("".equals(sentence1) || "".equals(sentence2)) {
+            return true;
+        }
+        String[] s1 = sentence1.split(" ");
+        String[] s2 = sentence2.split(" ");
+        int l = 0;
+        int r = s2.length-1;
+        for (int i = 0; i < s1.length; i++) {
+            if (s1[i].equals(s2[l])) {
+                l++;
+                if (i == s1.length - 1 || l == s2.length) {
+                    return true;
+                }
+            } else {
+                break;
+            }
+        }
+        for (int i = s1.length - 1; i >= 0; i--) {
+            if (s1[i].equals(s2[r])) {
+                r--;
+                if (r == l - 1 || i == 0) {
+                    return true;
+                }
+            } else {
+                break;
+            }
+        }
+        return false;
+
+    }
+
+
+    public int[] advantageCount(int[] nums1, int[] nums2) {
+        int n = nums1.length;
+        TreeMap<Integer, Integer> map = new TreeMap<>();
+        for (int x : nums1) {
+            map.put(x, map.getOrDefault(x, 0) + 1);
+        }
+        int[] ans = new int[n];
+        for (int i = 0; i < n; i++) {
+            Integer cur = map.ceilingKey(nums2[i] + 1);
+            if (cur == null) {
+                cur = map.ceilingKey(-1);
+            }
+            ans[i] = cur;
+            map.put(cur, map.get(cur) - 1);
+            if (map.get(cur) == 0) {
+                map.remove(cur);
+            }
+        }
+        return ans;
     }
 
 

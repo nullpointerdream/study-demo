@@ -1,6 +1,5 @@
 package com.mycrawler.mycrawler.design.obverse.thread;
 
-import com.sun.xml.internal.rngom.digested.DOneOrMorePattern;
 
 /**
  * @program: mycrawler
